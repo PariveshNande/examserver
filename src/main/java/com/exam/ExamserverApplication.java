@@ -18,7 +18,7 @@ public class ExamserverApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("Starting Code");
+        System.out.println("Starting exam-server application");
 
         /**
          * Setting Admin user by Command Line Runner

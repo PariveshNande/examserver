@@ -5,6 +5,7 @@ import com.exam.model.JwtRequest;
 import com.exam.model.JwtResponse;
 import com.exam.service.impl.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -12,12 +13,12 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
+@CrossOrigin("*")
 public class AuthenticateController {
 
     @Autowired
@@ -39,6 +40,11 @@ public class AuthenticateController {
         UserDetails userDetails = this.userDetailService.loadUserByUsername(jwtRequest.getUserName());
         String token = this.jwtUtils.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token));
+    }
+
+    @RequestMapping(value = "/current-user", method = RequestMethod.GET)
+    public ResponseEntity<UserDetails> getCurrentUser(Principal principal) {
+        return new ResponseEntity<>(this.userDetailService.loadUserByUsername(principal.getName()), HttpStatus.OK);
     }
 
 
