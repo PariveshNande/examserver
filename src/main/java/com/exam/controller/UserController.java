@@ -43,7 +43,7 @@ public class UserController {
 
     @GetMapping("/{userName}")
     public ResponseEntity<User> getUser(@PathVariable("userName") String userName) {
-        return new ResponseEntity<>(this.userService.findUserByUserName(userName), HttpStatus.FOUND);
+        return new ResponseEntity<>(this.userService.findUserByUserName(userName), HttpStatus.OK);
     }
 
     @DeleteMapping("/{userId}")
